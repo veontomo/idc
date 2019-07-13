@@ -1,6 +1,5 @@
 package com.baeldung.idc;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,7 @@ public class ToDoController implements ToDoOperations {
     @Override
     public List<Task> getAll() {
 
-        return Arrays.asList(new Task());
+        return repo.getItems();
     }
 
 }
