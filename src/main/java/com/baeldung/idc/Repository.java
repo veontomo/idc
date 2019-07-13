@@ -43,4 +43,11 @@ public class Repository {
             .findFirst();
     }
 
+    public void save(int id, Book book) {
+        IntStream.range(0, items.size())
+            .filter(i -> items.get(i).getId() == id)
+            .findFirst()
+            .ifPresent(i -> this.items.set(i, book));
+    }
+
 }
