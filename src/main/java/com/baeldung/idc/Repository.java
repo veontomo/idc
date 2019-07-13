@@ -2,6 +2,7 @@ package com.baeldung.idc;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,20 +15,16 @@ import com.github.javafaker.Faker;
 @Component
 public class Repository {
 
-    private List<Task> items;
+    private List<Book> items;
 
     @PostConstruct
     public void init() {
         Faker faker = new Faker(Locale.ENGLISH);
-        final int s = faker.random()
-            .nextInt(20);
-        System.out.println(s);
-        this.items = IntStream.range(0, s)
-            .mapToObj(i -> new Task(i, faker.book()
-                .title(),
-                faker.shakespeare()
-                    .asYouLikeItQuote(),
-                null))
+        final com.github.javafaker.Book book = faker.book();
+        this.items = IntStream.range(1, faker.random()
+            .nextInt(10, 20))
+            .mapToObj(i -> new Book(i, faker.book()
+                .title(), book.author(), book.genre()))
             .collect(Collectors.toList());
 
     }
@@ -36,8 +33,14 @@ public class Repository {
         return items.size();
     }
 
-    public List<Task> getItems() {
+    public List<Book> getItems() {
         return items;
+    }
+
+    public Optional<Book> getById(int id) {
+        return this.items.stream()
+            .filter(item -> id == item.getId())
+            .findFirst();
     }
 
 }
